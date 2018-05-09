@@ -15,9 +15,13 @@ module React
         js_code = <<-JS
           (function () {
             #{before_render(component_name, props, prerender_options)}
-            var result = ReactDOMServer.#{render_function}(React.createElement(#{component_name}, #{props}));
+            const staticContent = StyleSheetServer.renderStatic(function() {
+              return ReactDOMServer.#{render_function}(React.createElement(#{component_name}, #{props}));
+            });
             #{after_render(component_name, props, prerender_options)}
-            return result;
+            return (
+             "<div><style>" + staticContent.css.content + "</style>" + staticContent.html + "</div>"
+            );
           })()
         JS
         @context.eval(js_code).html_safe

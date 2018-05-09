@@ -6,6 +6,10 @@
 
 * * *
 
+NOTE: This is Flexport's fork of react-rails. It is forked from version 1.8.2,
+and modifies `ExecJSRenderer`'s `render` method to allow Aphrodite to work
+properly during server-side rendering.
+
 # react-rails
 
 
