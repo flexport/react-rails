@@ -20,7 +20,7 @@ module React
             });
             #{after_render(component_name, props, prerender_options)}
             return (
-             "<div><style>" + staticContent.css.content + "</style>" + staticContent.html + "</div>"
+             "<style>" + staticContent.css.content + "</style>" + staticContent.html
             );
           })()
         JS
