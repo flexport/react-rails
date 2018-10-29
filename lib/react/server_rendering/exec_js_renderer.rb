@@ -4,6 +4,13 @@ module React
     # - Depends on global ReactDOMServer in the ExecJS context
     # - No Rails dependency
     # - No browser concerns
+
+    # NOTE: During the upgrade to React 16.5.2 / React 16.6,
+    # we started getting errors from this function, which appeared after
+    # the const staticContent line:
+    # #{after_render(component_name, props, prerender_options)}
+    # This function depended on a variable called "result" to exist,
+    # and it stopped existing. We removed it, and it started working.
     class ExecJSRenderer
       def initialize(options={})
         js_code = options[:code] || raise("Pass `code:` option to instantiate a JS context!")
@@ -18,7 +25,6 @@ module React
             const staticContent = StyleSheetServer.renderStatic(function() {
               return ReactDOMServer.#{render_function}(React.createElement(#{component_name}, #{props}));
             });
-            #{after_render(component_name, props, prerender_options)}
             return (
              "<style>" + staticContent.css.content + "</style>" + staticContent.html
             );
